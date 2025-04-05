@@ -2,7 +2,10 @@ package org.example.paymentservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.paymentservice.enums.ModeOfPayment;
+import org.example.paymentservice.enums.TransactionStatus;
 import org.hibernate.annotations.GenericGenerator;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -43,7 +46,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TransactionStatus status = TransactionStatus.PENDING;
+    private TransactionStatus status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
@@ -53,8 +56,12 @@ public class Transaction {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updatedAt = this.createdAt;
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        this.createdAt = now;
+        this.updatedAt = now;
+        if (this.status == null) {
+            this.status = TransactionStatus.PENDING;
+        }
     }
 
     @PreUpdate

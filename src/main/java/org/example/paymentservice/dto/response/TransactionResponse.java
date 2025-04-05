@@ -19,9 +19,9 @@ public class TransactionResponse {
 
     private UUID userId;
 
-    private Long fromStationId;
+    private int fromStationId;
 
-    private Long toStationId;
+    private int toStationId;
 
     private BigDecimal distance;
 
