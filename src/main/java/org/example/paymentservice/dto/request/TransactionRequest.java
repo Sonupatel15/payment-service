@@ -1,5 +1,7 @@
 package org.example.paymentservice.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import org.example.paymentservice.enums.ModeOfPayment;
 import org.example.paymentservice.enums.TransactionStatus;
 import lombok.*;
@@ -14,12 +16,13 @@ import java.util.UUID;
 public class TransactionRequest {
     private UUID userId;
 
-    private Long fromStationId;
+    private int fromStationId;
 
-    private Long toStationId;
+    private int toStationId;
 
     private ModeOfPayment modeOfPayment;
 
     // Optional: default to PENDING if not provided
-    private TransactionStatus status;
+    @JsonSetter(nulls = Nulls.SKIP)
+    private TransactionStatus status = TransactionStatus.PENDING;
 }
